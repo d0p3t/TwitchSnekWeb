@@ -23,9 +23,6 @@ let server = http.Server(app);
 let io = new socketIO(server);
 let port = process.env.PORT || 6969;
 
-let forceSsl = require('express-force-ssl');
-
-app.use(forceSsl);
 app.use(compression({}));
 app.use(express['static'](__dirname + '/../client'));
 
