@@ -11,7 +11,9 @@ import { sanitizeString } from '../shared/util';
 import SnekCommand from './models/SnekCommand';
 
 mongoose.Promise = require('bluebird');
-mongoose.connect('mongodb://0.0.0.0/twitchsnek', { useMongoClient: true }).then(
+let mongo_url = process.env.MONGO || '127.0.0.1';
+
+mongoose.connect(`mongodb://${mongo_url}/twitchsnek`, { useMongoClient: true }).then(
     () => { let db = mongoose.connection; console.log('Connected to database'); },
     err => { console.log('Could not connect to database') }
   );
@@ -21,6 +23,9 @@ let server = http.Server(app);
 let io = new socketIO(server);
 let port = process.env.PORT || 6969;
 
+let forceSsl = require('express-force-ssl');
+
+app.use(forceSsl);
 app.use(compression({}));
 app.use(express['static'](__dirname + '/../client'));
 
