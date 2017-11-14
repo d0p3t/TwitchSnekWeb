@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en" class="has-navbar-fixed-top">
+
 <head>
     <meta charset="UTF-8">
     <title>TwitchSnek</title>
@@ -10,6 +11,7 @@
     <link rel="stylesheet" href="css/bulma.css" />
     <link rel="stylesheet" href="css/main.css" />
 </head>
+
 <body>
     <nav class="navbar is-transparent is-fixed-top" role="navigation" aria-label="main navigation">
         <div id="specialShadow" class="bd-special-shadow" style="transform: scaleY(1);"></div>
@@ -18,16 +20,18 @@
                 <a class="navbar-item" href="/">
                     <img src="images/logo.png" alt="TwitchSnek Statistics in real-time from the live game at serpent.ai" width="28" height="28">
                 </a>
-            
+
                 <button class="button navbar-burger" data-target="navMenu">
-                <span></span>
-                <span></span>
-                <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </button>
             </div>
             <div class="navbar-menu" id="navMenu">
                 <div class="navbar-start">
-                    <div class="navbar-item"><span class="tag is-danger">v1-alpha</span></div>
+                    <div class="navbar-item">
+                        <span class="tag is-danger">v2-alpha</span>
+                    </div>
                     <a class="navbar-item" href="/">Home</a>
                     <a class="navbar-item" href="/how-to-play.html">How To Play</a>
                 </div>
@@ -63,9 +67,10 @@
                     TwitchSnek Stats
                 </h1>
                 <h2 class="subtitle">
-                    <b>Live</b> game statistics for <a href="https://twitch.tv/serpent_ai" target="_blank">Serpent.AI</a>'s Snake
+                    <b>Live</b> game statistics for
+                    <a href="https://twitch.tv/serpent_ai" target="_blank">Serpent.AI</a>'s Snake
                 </h2>
-            </div>      
+            </div>
         </div>
     </section>
     <section class="info-tiles section">
@@ -73,11 +78,11 @@
             <div class="tile is-ancestor">
                 <div class="tile is-parent has-text-centered">
                     <article class="tile is-child box is-danger">
-                    <p class="title" id="totalplayers">0</p>
-                    <p class="subtitle">Unique Players</p>
+                        <p class="title" id="totalplayers">0</p>
+                        <p class="subtitle">Unique Players</p>
                     </article>
                 </div>
-                <div class="tile is-parent has-text-centered" disabled>
+                <div class="tile is-parent has-text-centered">
                     <article class="tile is-child box is-primary">
                         <p class="title" id="totalplayersday">0</p>
                         <p class="subtitle">Unique Players (24h)</p>
@@ -85,14 +90,14 @@
                 </div>
                 <div class="tile is-parent has-text-centered">
                     <article class="tile is-child box is-primary">
-                    <p class="title" id="totalcommands">0</p>
-                    <p class="subtitle">Commands Sent</p>
+                        <p class="title" id="totalcommands">0</p>
+                        <p class="subtitle">Commands Sent</p>
                     </article>
                 </div>
-                <div class="tile is-parent has-text-centered" disabled>
+                <div class="tile is-parent has-text-centered">
                     <article class="tile is-child box is-primary">
-                    <p class="title" id="totalcommandsday">0</p>
-                    <p class="subtitle">Commands Sent (24h)</p>
+                        <p class="title" id="totalcommandsday">0</p>
+                        <p class="subtitle">Commands Sent (24h)</p>
                     </article>
                 </div>
             </div>
@@ -106,18 +111,18 @@
                     <div id="directionChart" class="chart"></div>
                 </div>
                 <div class="column">
-                    <span class="tag is-warning">Coming Soon</span>
-                    <div id="dateChart" class="chart" disabled></div>
+                    <span class="tag is-success">New</span>
+                    <div id="alltimeChart" class="chart"></div>
                 </div>
             </div>
             <div class="columns">
                 <div class="column">
-                        <span class="tag is-success">New</span>
-                    <div id="alltimeChart" class="chart"></div>
+                    <span class="tag is-warning">Coming Soon</span>
+                    <div id="topmonthChart" class="chart" disabled></div>
                 </div>
                 <div class="column">
-                        <span class="tag is-warning">Coming Soon</span>
-                    <div id="topmonthChart" class="chart" disabled></div>
+                    <span class="tag is-warning">Coming Soon</span>
+                    <div id="dateChart" class="chart" disabled></div>
                 </div>
             </div>
         </div>
@@ -126,10 +131,12 @@
     <footer class="footer">
         <div class="content has-text-centered">
             <p>
-                <strong>TwitchSnek Stats</strong> made by <a href="https://twitter.com/d0p3t">d0p3t</a>.
+                <strong>TwitchSnek Stats</strong> made by
+                <a href="https://twitter.com/d0p3t">d0p3t</a>.
             </p>
         </div>
     </footer>
     <script src="js/client.js"></script>
 </body>
+
 </html>

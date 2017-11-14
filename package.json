@@ -33,6 +33,7 @@
     "frappe-charts": "0.0.4",
     "moment": "^2.19.2",
     "mongoose": "^4.13.1",
+    "odometer": "^0.4.8",
     "socket.io": "^2.0.4",
     "socket.io-client": "^2.0.4"
   }

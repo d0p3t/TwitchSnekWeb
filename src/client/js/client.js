@@ -4,7 +4,7 @@ import io from "socket.io-client";
 import { sanitizeString } from "../../shared/util";
 
 import Chart from "frappe-charts/dist/frappe-charts.min.esm";
-import { setInterval, setTimeout } from "timers";
+import { setTimeout } from "timers";
 
 class Client {
     constructor() {
@@ -33,11 +33,15 @@ class Client {
         this.socket.on("disconnected", () => {
             this.socket.close();
         });
+
+        this.socket.on("updateData", e => {
+            console.log(e.message);
+        });
     }
 
     setupDirectionChart() {
         let directionData = {
-            labels: ["left", "right", "up", "down"],
+            labels: ["down", "left", "right", "up"],
             datasets: [
                 {
                     color: "violet",
@@ -51,16 +55,24 @@ class Client {
             title: "Total times commands used",
             data: directionData,
             type: "bar", // or 'line', 'scatter', 'pie', 'percentage'
-            height: 250
+            height: 300
         });
 
         setTimeout(() => {
             this.socket.emit("directionChart");
-        }, 1750);
+        }, 500);
 
         this.socket.on("updateDirectionChart", e => {
-            console.log(e.type);
-            directionChart.update_values(e.data.datasets);
+            directionChart.update_values([
+                {
+                    values: [
+                        e.data[0][1],
+                        e.data[1][1],
+                        e.data[2][1],
+                        e.data[3][1]
+                    ]
+                }
+            ]);
         });
     }
 
@@ -92,39 +104,51 @@ class Client {
             title: "Number of commands per day",
             data: dateData,
             type: "line", // or 'line', 'scatter', 'pie', 'percentage'
-            height: 200
+            height: 300
         });
     }
     setupAlltimeChart() {
-        setTimeout(() => {
-            this.socket.emit("topFiveAlltimeChart");
-        }, 1500);
-
+        this.socket.emit("topFiveAlltimeChart");
+        let alltimeData = {
+            labels: ["user", "user", "user", "user", "user"],
+            datasets: [
+                {
+                    values: [1, 1, 1, 1, 1]
+                }
+            ]
+        };
+        let alltimeChart = new Chart({
+            parent: "#alltimeChart", // or a DOM element
+            title: "Top 5 all-time command users",
+            data: alltimeData,
+            type: "pie" // or 'line', 'scatter', 'pie', 'percentage'
+        });
         this.socket.on("updateTopFiveChart", e => {
-            let alltimeData = {
-                labels: [
-                    e.data[0][0],
-                    e.data[1][0],
-                    e.data[2][0],
-                    e.data[3][0],
-                    e.data[4][0]
-                ],
-                datasets: [
-                    {
-                        values: [
-                            e.data[0][1],
-                            e.data[1][1],
-                            e.data[2][1],
-                            e.data[3][1],
-                            e.data[4][1]
-                        ]
-                    }
-                ]
-            };
             let alltimeChart = new Chart({
                 parent: "#alltimeChart", // or a DOM element
-                title: "Highest all-time command users",
-                data: alltimeData,
+                title: "Top 5 all-time command users",
+                data: {
+                    labels: [
+                        e.data[0][0],
+                        e.data[1][0],
+                        e.data[2][0],
+                        e.data[3][0],
+                        e.data[4][0],
+                        e.data[5][0]
+                    ],
+                    datasets: [
+                        {
+                            values: [
+                                e.data[0][1],
+                                e.data[1][1],
+                                e.data[2][1],
+                                e.data[3][1],
+                                e.data[4][1],
+                                e.data[5][1]
+                            ]
+                        }
+                    ]
+                },
                 type: "pie" // or 'line', 'scatter', 'pie', 'percentage'
             });
         });
