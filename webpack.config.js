@@ -1,19 +1,15 @@
-const webpack = require('webpack');
-const path = require('path');
+const webpack = require("webpack");
+const path = require("path");
 
 module.exports = {
-    entry: {
-        main: './src/client/js/client.js'
-    },
+    entry: ["babel-polyfill", "./src/client/js/client.js"],
     output: {
         path: path.resolve("./dist/client/js"),
-        filename: 'client.js'
+        filename: "client.js"
     },
     module: {
-        loaders: [{loader: 'babel-loader'}]
+        loaders: [{ loader: "babel-loader" }]
     },
-    devtool: 'source-map',
-    plugins: [
-        new webpack.optimize.UglifyJsPlugin()
-    ]
+    devtool: "source-map",
+    //plugins: [new webpack.optimize.UglifyJsPlugin()]
 };

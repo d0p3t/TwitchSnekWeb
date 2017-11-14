@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const SnekCommandSchema = new mongoose.Schema({
     username: {
@@ -11,7 +11,7 @@ const SnekCommandSchema = new mongoose.Schema({
     },
     direction: {
         type: String,
-        default: 'invalid'
+        default: "invalid"
     },
     performed_at: {
         type: Date,
@@ -19,4 +19,4 @@ const SnekCommandSchema = new mongoose.Schema({
     }
 });
 
-export default mongoose.model('SnekCommand', SnekCommandSchema);
+export default mongoose.model("SnekCommand", SnekCommandSchema);
