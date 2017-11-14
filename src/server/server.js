@@ -11,7 +11,9 @@ import { sanitizeString } from "../shared/util";
 import SnekCommand from "./models/SnekCommand";
 import {
     getTopFiveAllTimePlayersData,
-    getDirectionData
+    getDirectionData,
+    getLastSevenDaysData,
+    getTopFiveMonthPlayersData
 } from "./controllers/Charts";
 import { getTileData } from "./controllers/Tiles";
 import { setInterval } from "timers";
@@ -43,7 +45,7 @@ app.use(express["static"](__dirname + "/../client"));
 
 io.on("connection", socket => {
     console.log(`User ${socket.id} connected`);
-
+    
     socket.on("disconnect", () => {
         console.log(`User ${socket.id} disconnected.`);
     });
@@ -62,6 +64,16 @@ io.on("connection", socket => {
             socket.emit("updateTopFiveChart", { data: cb });
         });
     });
+    socket.on("topFiveMonthChart", () => {
+        getTopFiveMonthPlayersData(cb => {
+            socket.emit("updateTopFiveMonthChart", { data: cb });
+        });
+    });
+    socket.on("lastWeekChart", () => {
+        getLastSevenDaysData(cb => {
+            socket.emit("updateLastWeekChart", { data: cb });
+        });
+    });
     socket.on("tilesinfo", () => {
         getTileData(cb => {
             socket.emit("updateTiles", { data: cb });
@@ -74,6 +86,12 @@ io.on("connection", socket => {
         });
         getTopFiveAllTimePlayersData(cb => {
             socket.emit("updateTopFiveChart", { data: cb });
+        });
+        getTopFiveMonthPlayersData(cb => {
+            socket.emit("updateTopFiveMonthChart", { data: cb });
+        });
+        getLastSevenDaysData(cb => {
+            socket.emit("updateLastWeekChart", { data: cb });
         });
         getTileData(cb => {
             socket.emit("updateTiles", { data: cb });

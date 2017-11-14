@@ -1,6 +1,7 @@
 "use strict";
 
 import io from "socket.io-client";
+import moment from "moment";
 import { sanitizeString } from "../../shared/util";
 
 import Chart from "frappe-charts/dist/frappe-charts.min.esm";
@@ -16,7 +17,7 @@ class Client {
 
         // Charts
         this.setupDirectionChart();
-        this.setupDateChart();
+        this.setupLastWeekChart();
         this.setupAlltimeChart();
         this.setupTopMonthChart();
     }
@@ -76,44 +77,71 @@ class Client {
         });
     }
 
-    setupDateChart() {
+    setupLastWeekChart() {
+        setTimeout(() => {
+            this.socket.emit("lastWeekChart");
+        }, 1500);
         let dateData = {
             labels: [
-                "02/11/2017",
-                "03/11/2017",
-                "04/11/2017",
-                "05/11/2017",
-                "06/11/2017",
-                "07/11/2017",
-                "08/11/2017",
-                "09/11/2017",
-                "10/11/2017",
-                "11/11/2017"
+                moment().subtract(6, "days").format("DD MMM"),
+                moment().subtract(5, "days").format("DD MMM"),
+                moment().subtract(4, "days").format("DD MMM"),
+                moment().subtract(3, "days").format("DD MMM"),
+                moment().subtract(2, "days").format("DD MMM"),
+                moment().subtract(1, "days").format("DD MMM"),
+                moment().format("DD MMM")
             ],
             datasets: [
                 {
                     title: "Serpent.AI Snek",
-                    color: "violet",
-                    values: [45, 20, 60, 50, 100, 57, 41, 78, 91, 39]
+                    color: "purple",
+                    values: [0, 0, 0, 0, 0, 0, 0]
                 }
             ]
         };
 
         let dateChart = new Chart({
             parent: "#dateChart", // or a DOM element
-            title: "Number of commands per day",
+            title: "Number of commands in the past week",
             data: dateData,
             type: "line", // or 'line', 'scatter', 'pie', 'percentage'
             height: 300
+        });
+
+        this.socket.on("updateLastWeekChart", e => {
+            dateChart.update_values(
+                [
+                    {
+                        values: [
+                            e.data[0][1],
+                            e.data[1][1],
+                            e.data[2][1],
+                            e.data[3][1],
+                            e.data[4][1],
+                            e.data[5][1],
+                            e.data[6][1]
+                        ]
+                    }
+                ],
+                [
+                    e.data[0][0],
+                    e.data[1][0],
+                    e.data[2][0],
+                    e.data[3][0],
+                    e.data[4][0],
+                    e.data[5][0],
+                    e.data[6][0]
+                ]
+            );
         });
     }
     setupAlltimeChart() {
         this.socket.emit("topFiveAlltimeChart");
         let alltimeData = {
-            labels: ["user", "user", "user", "user", "user"],
+            labels: ["user", "user", "user", "user", "user", "Others"],
             datasets: [
                 {
-                    values: [1, 1, 1, 1, 1]
+                    values: [1, 1, 1, 1, 1, 1]
                 }
             ]
         };
@@ -154,21 +182,51 @@ class Client {
         });
     }
     setupTopMonthChart() {
+        this.socket.emit("topFiveMonthChart");
         let topmonthData = {
-            labels: ["d0p3t", "Vilsol", "tree", "serpent_ai", "Barie2"],
+            labels: ["user", "user", "user", "user", "user", "Others"],
             datasets: [
                 {
                     color: "violet",
-                    values: [69, 51, 43, 41, 23]
+                    values: [1,1,1,1,1,1]
                 }
             ]
         };
 
-        let dateChart = new Chart({
+        let topMonthChart = new Chart({
             parent: "#topmonthChart", // or a DOM element
             title: "Top 5 of the month command users",
             data: topmonthData,
             type: "pie" // or 'line', 'scatter', 'pie', 'percentage'
+        });
+        this.socket.on("updateTopFiveMonthChart", e => {
+            let topMonthChart = new Chart({
+                parent: "#topmonthChart",
+                title: "Top 5 of the month command users",
+                data: {
+                    labels: [
+                        e.data[0][0],
+                        e.data[1][0],
+                        e.data[2][0],
+                        e.data[3][0],
+                        e.data[4][0],
+                        e.data[5][0]
+                    ],
+                    datasets: [
+                        {
+                            values: [
+                                e.data[0][1],
+                                e.data[1][1],
+                                e.data[2][1],
+                                e.data[3][1],
+                                e.data[4][1],
+                                e.data[5][1]
+                            ]
+                        }
+                    ]
+                },
+                type: "pie"
+            }) ;
         });
     }
 
