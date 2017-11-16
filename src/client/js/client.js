@@ -94,7 +94,7 @@ class Client {
             datasets: [
                 {
                     title: "Serpent.AI Snek",
-                    color: "purple",
+                    color: "violet",
                     values: [0, 0, 0, 0, 0, 0, 0]
                 }
             ]
@@ -105,7 +105,8 @@ class Client {
             title: "Number of commands in the past week",
             data: dateData,
             type: "line", // or 'line', 'scatter', 'pie', 'percentage'
-            height: 300
+            height: 300,
+            region_fill: 1
         });
 
         this.socket.on("updateLastWeekChart", e => {

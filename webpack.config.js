@@ -1,6 +1,8 @@
 const webpack = require("webpack");
 const path = require("path");
 
+const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+
 module.exports = {
     entry: ["babel-polyfill", "./src/client/js/client.js"],
     output: {
@@ -10,6 +12,10 @@ module.exports = {
     module: {
         loaders: [{ loader: "babel-loader" }]
     },
-    devtool: "source-map",
-    //plugins: [new webpack.optimize.UglifyJsPlugin()]
+    //devtool: "source-map",
+    plugins: [new UglifyJsPlugin({
+        uglifyOptions: {
+            ecma: 8
+        }
+    })]
 };

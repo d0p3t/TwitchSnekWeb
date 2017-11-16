@@ -13,7 +13,7 @@ import {
     getTopFiveAllTimePlayersData,
     getDirectionData,
     getLastSevenDaysData,
-    getTopFiveMonthPlayersData
+    getTopFiveMonthPlayersData  
 } from "./controllers/Charts";
 import { getTileData } from "./controllers/Tiles";
 import { setInterval } from "timers";
